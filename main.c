@@ -1,22 +1,24 @@
 #include <cpu.h>
-#include <io.h>
 
 #define DELAY 500000
 
 int main (void) {
 
-	volatile unsigned int ra;
-	write32(CM_PER_BASE+CM_PER_GPIO1, 1<<18 | 2);
-	ra = read32(GPIO1_BASE+GPIO_OE);
-	ra &= ~(15<<21);
-	write32(GPIO1_BASE+GPIO_OE,ra);
+	uint32_t i;
+	uint32_t aux;
+	
+	PRCM_CM_WKUP->ICLKEN = (1 << 3);//set GPIO1 clock
+
+	aux = GPIO1->OE;
+	aux &= ~( 1 << 21 ); //set 21 to output
+	GPIO1->OE = aux;
 	
     for(;;)
 	{
-		write32(GPIO1_BASE+GPIO_SETDATAOUT, (15<<21));
-		for(ra = 0; ra < DELAY; ra ++);
-		write32(GPIO1_BASE+GPIO_CLRDATAOUT, (15<<21));
-		for(ra = 0; ra < DELAY; ra ++);
+		GPIO1->SETDATAOUT = ( 1 << 21 );
+		for(i = 0; i < DELAY; i++);
+		GPIO1->CLEARDATAOUT = ( 1 << 21 );
+		for(i = 0; i < DELAY; i++);
 	}
     
     return 0;
