@@ -6,7 +6,7 @@ LDS		= linker.ld
 
 PREFIX	= arm-none-eabi-
 
-CFLAGS	=  -W -Wall 
+CFLAGS	=  -W -Wall
 CFLAGS 	+= -g3 -Os -ffunction-sections -fdata-sections
 CFLAGS  += -mtune=cortex-a8
 CFLAGS  += -I./include/ -I./ 

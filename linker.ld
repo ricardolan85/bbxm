@@ -1,35 +1,38 @@
-ENTRY(_start)
-
-MEMORY
-{
-    ram : ORIGIN = 0x80000000, LENGTH = 0x10000000
-}
+ENTRY(boot)
 
 SECTIONS
 {
-    __start = .;
+    . = 0x80000000;
+    
+    . = ALIGN(4);
     .text :
     {
         KEEP(*(.text.boot))
         *(.text)
-    } > ram
+    }
     
+    . = ALIGN(4);
     .rodata :
     {
         *(.rodata)
-    } > ram
+    }
     
+    . = ALIGN(4);
     .data :
     {
         *(.data)
-    } > ram
+    }
 
-    __bss_start__ = .;
+    . = ALIGN(4);
     .bss :
     {
-        bss = .;
         *(.bss)
-    } > ram
-    __bss_end__ = .;
+    }
+
+    /DISCARD/ :
+    {
+        *(.init)
+        *(.fini)
+    }
 
 }
