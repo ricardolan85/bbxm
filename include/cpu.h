@@ -15,7 +15,7 @@ typedef struct {
     volatile uint32_t CLKSEL;           //0x40
 } PRCM_CM_WKUP_def;
 
-#define PRCM_CM_WKUP_ADDR 0x48004C00
+#define PRCM_CM_WKUP_ADDR 0x48004C00UL
 
 #define PRCM_CM_WKUP           ((PRCM_CM_WKUP_def *) PRCM_CM_WKUP_ADDR)
 
