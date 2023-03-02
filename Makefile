@@ -1,8 +1,8 @@
 PROJECT	= bbxm
 
-CSRCS	= boot.c main.c 
-OBJ		= boot.o main.o
-LDS		= linker.ld
+SRCS	= boot.c main.c 
+OBJS	= boot.o main.o
+LDS		= linker.lds
 
 PREFIX	= arm-none-eabi-
 
@@ -13,15 +13,13 @@ CFLAGS  += -I./include/ -I./
 
 LDFLAGS	= -T$(LDS) --specs=nano.specs --specs=nosys.specs -Wl,--gc-sections -Wl,-Map=$@.map
 
-OBJS = $(SOURCES:.c=.o)
 
 all: $(PROJECT).elf
 
-# compile
-$(PROJECT).elf: $(OBJ)
-	$(PREFIX)gcc $(CFLAGS) $(OBJ) -o $@ $(LDFLAGS)
+$(PROJECT).elf: $(OBJS)
+	$(PREFIX)gcc $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 
-%.o: %.c $(DEPS)
+%.o: %.c
 	$(PREFIX)gcc -c $(CFLAGS) $< -o $@
 
 bin: $(PROJECT).elf
